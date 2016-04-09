@@ -1,0 +1,1422 @@
+ <html>
+<title> OurCampus </title>
+ <body>
+    <script src="http://45.55.42.214:80/socket.io/socket.io.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <!-- Latest compiled and minified CSS -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+ <!-- Latest compiled and minified JavaScript -->
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+   <div id ="infowell" class="well well-lg">
+    <center><div id="intro">
+  <b>Welcome to OnCampus, make a user name and look for the red markers<br>
+     Click on the markers to send a chat a request</b><br>
+     <a href="#" id="closeinfo">
+     Okay <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a></div>
+     <table><tr id="navlinks"></tr></table>
+     </center>
+ </div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><center>
+<div id="allRequests"></div>
+<div id="incoming-request">
+  <div id ="requestWell" class="well well-lg">
+    <div id="header"></div>
+           <form id="accReq">
+           <input type="submit" class="btn btn-success" id="btn" style="margin-left:5; margin-right:300;height:50px;width:300px;" value="Accept"></input>
+         </form>
+         <form id="decReq">
+           <input type="submit" class="btn btn-danger" id="btn" style="margin-left:5; margin-right:300;height:50px;width:300px;" value="Decline"></input>
+         </form>
+  </div>
+</div>
+<div id="error" style="background-color: #FE2E2E;"></div>
+  <div id="contactform">
+    <div class="col-sm-4">
+          <div id ="registerwell" class="well well-lg">
+            <center> 
+              <form role="form" id="adduser" method="POST">
+              <div class="form-group">
+                <label for="UserNameRegister">Username</label>
+                <input type="text" maxlength="15" name = "registerusername" class="form-control" id="UserNameRegister" placeholder="Register Username">
+                 <center><input type="submit" style="height:35px; width:95px" class="btn btn-success" value="register" id="registerBttn"></input></center>
+              </div>
+          </div>
+         </div>
+     </div>
+<div id="admin">
+<div class='col-sm-4'>
+                 <div id ='adminlogin' class='well well-lg'>
+                         <center>  
+                                     <div id="admin_message"></div>
+                             <form role='form' id='admin_l' method='POST'>
+                              <div class='form-group'>
+                                    <input type='password' maxlength='15' name = 'loginadmin' class='form-control' id='loginadmin' placeholder='login'>
+                                   <input type='submit' style='height:35px; width:65px' value='login' id='adminloginbttn'></input>
+                                  </div>
+                               </div>
+                           </div>
+                        </div>
+<div id="adminModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style='width:70%'>
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 id="adminModalTitle" class="modal-title"></h4>
+      </div>
+      <div id="adminModalData" class="modal-body" style='width:auto;'>
+        <p>Some text in the modal.</p>
+      </div>
+      <div id="admin_wrapper">
+        <table><tr><td><div id='m_one'></div></td><td><div id='m_two'></div></td></tr></table>
+        <div id="obvs_content" style='height:250px;width:auto;overflow-y:auto;border:1px dashed green;'></div>
+        <div id="foot">
+      <a href="#" id="close_observ_window"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Close </a><br>
+    </div>
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <div id="stat"></div>
+<div class="panel panel-primary" id="chatwindow">
+      <br>
+      <center>
+        <div id="messages"></div>
+      <div id="waiting"><b>Waiting...</b></div>
+      <form id="chatReq">
+      <input type="submit" class="btn btn-primary" id="bttn" value=""></input>
+      </form>
+      </center>
+        <div class="input-group input-group-lg" id="messageSendDiv">
+          <form role="form" id="sendmsg" method="post"> 
+          <div class="form-group">
+          <input type="text" maxlength="85" id="msg" class="form-control" placeholder="Message">&nbsp
+            <!-- <input type="submit" style="height:45px;width:70px;" value="send" id="sendmsgbttn"></input> -->
+             <button type="button" class="btn btn-success" id="sendmsgbttn">Send Message</button>
+            <button type="button" class="btn btn-danger" id="endbttn">End Conversation</button>
+           <!-- <input type="submit" style="height:45px;width:70px;" value="end conversation" id="endbttn"></input> -->
+          </div>
+          <div id="cancel_req">
+              <button type="button" class="btn btn-danger" id="cancelbttn">Cancel Request</button>
+          </div>
+     </form> 
+      <div><a href="#" id="closeChatWindow"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Hide Window</a></div>
+      <table><tr><td>
+    <div id="media_one"></div>
+      </td><td>
+    <div id="media_two"></div></td></tr></table>
+   </div>
+</div>
+ </center> 
+    <!-- Content Modal -->
+<div class="modal fade" id="view_post">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="post_user"></h4>
+      </div>
+      <div class="modal-body">
+         <div id="post_content"></div>
+      </div>
+      <br><hr>
+      <div align="left">
+         <input class="comments btn btn-success" type="submit" style="height:35px; width:100px" align="bottom" value="comments" id="comments"></input>
+      </div>
+      <div align="left">
+         <input class="hide_comments btn btn-danger" type="submit" style="height:35px; width:130px" align="left" value="hide comments" id="hide_comments"></input>
+      </div>
+      <div id="comments_div"></div>
+           <div align="center" id="textarea_div">
+            <textarea class='comment_content form-control custom-control' rows='2' cols='20' style='resize:none' id='comment_content' placeholder='write a response'></textarea>
+          </div><div align="center">
+        <input class='post_comment btn btn-success' type='submit' style='height:45px; width:595px' value='post' id='post_comment'></input>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+  <!-- Content Modal -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+         <textarea class="form-control custom-control" rows="3" cols="30" style="resize:none" id="post_cntnt"></textarea>
+      </div>
+      <div class="modal-footer">
+        <center>
+        <button type="button" class="btn btn-success" id="make_post">Post</button>
+        </center>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+  <div id="map-canvas"></div>
+    <div id="shout_content" class="well well-lg">
+    <a href="#" id="closeshout"> Hide <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+    <div id="shoutbox">
+      <div id="s_msgs"></div>
+     <div id="postshout">
+       </div>
+       <form id="sendshoutform">
+         <input type="text" maxlength="75" id="shouttextfield" style="width:215px; height:32px;" placeholder="say something to the world" />
+         <button type="button" class="btn btn-success" id="sendshoutbttn">Send</button>
+       </form>
+       </div>
+    </div> 
+      <div id="hiddenShoutWindow" class="well well-lg">
+        <div><a href="#" id="openShoutWindow"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Show Messages</a></div>
+      </div>
+  <div id="hiddenChatWindow" class="well well-lg">
+<div><a href="#" id="openChatWindow"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Show Window</a></div>
+</div>
+  <div id="geopost_listview" class="well well-lg" style='overflow-y:auto;'>
+    <div id='gp_head'>
+      <div id="post">
+           <div class="form-group">
+          <!--<form role="form" id="post_form" method="POST"> -->
+          <label for="pickspot">Make a Geo Post!</label><br>
+              <input class="btn btn-success" type="submit" style="height:35px; width:190px" value="Pick a spot on the map!" id="pickspot"></input>
+              <input class="btn btn-danger" type="submit" style="height:35px; width:190px" value="cancel" id="cancelgeopost"></input><br><br><br><br>
+          <!--  </form> -->
+            </div>
+          </div>
+  </div>
+    <div id="geo_p_list"></div> 
+  </div>
+   <div id="listusers" class="well well-lg" style='overflow-y:auto;'>
+    <center><h3>Users Online</h3></center><hr style="height:1px;border:none;color:#333;background-color:#333;">
+    <div id="lu_body" style='overflow-y:auto;'></div>
+  </div>
+</body>
+</html>   
+<style type="text/css">
+html {
+	width: 1450px;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+
+}
+body {
+	width: 1450px;
+	height:100%;
+}
+#messages
+{
+   height:80px;
+    overflow:scroll;
+    overflow-x:hidden;
+    z-index: 1;
+}
+#stat {
+  display: none;
+  z-index: 1;
+}
+#hiddenChatWindow {
+  display: none;
+  position: absolute;
+  z-index: 1;
+   opacity: .95;
+   bottom: 2px;
+}
+#hiddenShoutWindow{
+    display: none;
+  position: absolute;
+  z-index: 1;
+   opacity: .95;
+   bottom: 75px;
+}
+#shout_content {
+  position: absolute;
+  z-index: 1;
+   opacity: .75;
+   left: 4px;
+   bottom: 8px;
+}
+#post {
+height: 42px;
+}
+#geopost_listview {
+   position: absolute;
+  z-index: 1;
+   opacity: .87;
+   right: 4px;
+   bottom: 10px;
+   height: 75%;
+   width: 20%;
+}
+#listusers {
+   position: absolute;
+  z-index: 1;
+   opacity: .87;
+   right: 25%;
+   bottom: 10px;
+   height: 60%;
+   width: 20%;
+}
+#s_msgs {
+  height: 300px;
+  overflow: auto;
+  z-index: 1;
+}
+#map-canvas {
+  height: 100%;
+  width: 115%;
+  position:absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+#infowell {
+   position: relative;
+    z-index: 1; /* The z-index should be higher than Google Maps */
+    opacity: .85;
+}
+#contactform {
+  position: relative;
+  z-index: 1; /* The z-index should be higher than Google Maps */
+  opacity: .85; /* Set the opacity for a slightly transparent Google Form */
+  width: 1000;
+  margin-left: 410 ;
+  margin-right: 20 ;
+}
+#incoming-request {
+  display: none;
+   z-index: 1; /* The z-index should be higher than Google Maps */
+   opacity: .85; /* Set the opacity for a slightly transparent Google Form */
+   width: 350;
+  position: absolute;
+  margin-left: 20%;
+  margin-right: 80%;
+}
+#allRequests {
+  display: none;
+   z-index: 1; /* The z-index should be higher than Google Maps */
+   opacity: .85; /* Set the opacity for a slightly transparent Google Form */
+    position: absolute;
+    margin-left: 30%;
+     margin-right: 30%;
+}
+#chatwindow {
+  display: none;
+  position: absolute;
+    resize: both;
+  margin-left: 35%;
+  margin-top: -15%;
+  z-index: 2;
+}
+#error {
+  display: none;
+  position: relative;
+    margin-left: 550;
+  margin-right: 540;
+  opacity: .85;
+  z-index: 1;
+}
+#recReq {
+  display: none;
+   position: absolute;
+   margin-left: -45%;
+  margin-right: -45%;
+  z-index: 1;
+}
+#waiting {
+  display: none;
+}
+#frm {
+  display:inline
+  }
+#cancel_req {
+  display: none;
+}
+#admin {
+  display: none;
+   position: relative;
+  z-index: 1; /* The z-index should be higher than Google Maps */
+  opacity: .85; /* Set the opacity for a slightly transparent Google Form */
+  width: 1000;
+  right: 30%;
+  margin-left: 450 ;
+  margin-right: 20 ;
+}
+
+#hide_comments{
+  z-index: 1;
+  display: none;
+}
+#post_comment{
+  z-index: 1;
+  display: none;
+}
+#textarea_div{
+  z-index: 1;
+  display: none;
+}
+#cancelgeopost {
+  z-index: 1;
+  display: none;
+}
+#comments_div {
+  z-index: 1;
+  height: 0px;
+  overflow: auto;
+}
+#afterLogin {
+  z-index: 1;
+  margin-right: 200 ;
+  display: none;
+}
+#close_observ_window {
+  display: none;
+}
+.gp_li{
+    text-decoration:none;
+    text-align: center;
+    padding:10px;
+    height:150px;
+    width:100%;
+    background-color:#f5f5f5;
+    z-index:10;
+
+}
+
+.gp_li:hover {
+    text-decoration:none;
+    border-bottom:5px solid #D8853B;
+    background-color:#FFF;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/0.3.14/peer.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAd_qUj056TQ8botUBBwAoRY8Mm5z4O8Lk"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script>
+$(document).ready(function(){
+  $("#post").show();
+   window.navigator = window.navigator || {};
+      navigator.getUserMedia = navigator.getUserMedia       ||
+                               navigator.webkitGetUserMedia ||
+                               navigator.mozGetUserMedia    ||
+                               null;
+  var peer;
+  var global_call_var = null;
+  var localMediaStream = null;
+  var allMarkers = [];
+  var allMarkerKeys = [];
+  var markerExists = false;
+   var gpp;
+   var global_lat;
+  var global_longi;
+  var global_origin;
+  var post_address;
+  var $form    = $('#adduser');
+  var $navlink = $("#navlinks");
+  var $afterLogin = $("#afterLogin");
+  var $accReq = $('#accReq');
+  var $decReq = $('#decReq');
+  var $username = $('#UserNameRegister');
+  var $registerBttn = $('#registerBttn');
+  var $registerwell = $('#registerwell');
+  var $sendReq = $('#bttn');
+  var $wait = $('#waiting');
+  var $sendmsg = $('#sendmsg');
+  var $msg = $('#msg');
+  var $infodiv = $('#infowell');
+  var $msgbox = $('#msg');
+  var $CWbttn = $('#closeChatWindow');
+  var $OWbttn = $('#openChatWindow');
+  var $userdash = $("#hiddenUserWindow");
+  var $admindash = $("#hiddenAdminDashboard");
+  var $cancelbttn = $('#cancelbttn');
+  var $canceldiv = $('#cancel_req');
+  var $closeshout = $("#closeshout");
+  var $sendshoutbttn = $("#sendshoutbttn");
+  var socket  = io.connect('http://45.55.42.214:80');
+  var data_one;
+  var data_two;
+  var lat;
+  var longi;
+  var map;
+  var uname;
+  var identifier;
+  var errFlag = false;
+  var com_visible = false;
+  var inconv = false;
+  var global_to;
+  var global_from;
+  var global_user;
+    var isAdmin = false;
+    var randRolling = false;
+       // var color = getRandomColor();
+//var colors = ["#31B404","#B40404","#08088A","#DF3A01","#8A0886"];
+  $msgbox.prop("disabled", true);
+  $username.prop('disabled', true);
+  $registerBttn.prop('disabled', true);
+  navigator.geolocation.watchPosition(function(position) {
+  //console.log("location enabled");
+      $username.prop('disabled', false);
+       $registerBttn.prop('disabled', false);
+      },
+      function (error) { 
+          if (error.code == error.PERMISSION_DENIED)
+           //console.log("location blocked");
+           $('#error').html("<b><font color='white'>You must enable your browsers geolocation</font></b>");
+           $('#error').show();
+        });
+  if (navigator.geolocation){
+    geolocate();
+    navigator.geolocation.getCurrentPosition(showPosition);
+    window.onload = mpld();
+    function mpld(){
+      var str =" success ";
+    //socket.emit("map-loaded", str);
+     }
+  function updateScroll(){
+      var element = document.getElementById("messages");
+      element.scrollTop = element.scrollHeight;
+  }
+     function updateShoutScroll(){
+      var element = document.getElementById("s_msgs");
+      element.scrollTop = element.scrollHeight;
+  }
+     function updateCommentsScroll(){
+      var element = document.getElementById("comments_div");
+      element.scrollTop = element.scrollHeight;
+  }
+   function updateACdashscroll(){
+     if(!(null == allconvs)){
+      var allconvs = document.getElementById("actv");
+      allconvs.scrollTop = allconvs.scrollHeight;
+    }
+  }
+  function updateAUdashscroll() {
+    var allusers = document.getElementById("usrs");
+    allusers.scrollTop = allusers.scrollHeight;
+  }
+  function updateCCdashscroll(){
+    var allclients = document.getElementById("clnts");
+     clnts.scrollTop = allclients.scrollHeight;
+  }
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+function getDateTime(){
+   var currentdate = new Date(); 
+    var datetime = (currentdate.getMonth()+1)  + "/" 
+                  + currentdate.getDate() + "/"
+                  + currentdate.getFullYear() + " @"  
+                  + currentdate.getHours() + ":"  
+                  + currentdate.getMinutes() + ":" 
+                  + currentdate.getSeconds();
+          return datetime;
+}
+function wordwrap (str, int_width, str_break, cut) {
+  var m = ((arguments.length >= 2) ? arguments[1] : 75);
+  var b = ((arguments.length >= 3) ? arguments[2] : "\n");
+  var c = ((arguments.length >= 4) ? arguments[3] : false);
+
+  var i, j, l, s, r;
+
+  str += '';
+
+  if (m < 1) {
+    return str;
+  }
+
+  for (i = -1, l = (r = str.split(/\r\n|\n|\r/)).length; ++i < l; r[i] += s) {
+    for (s = r[i], r[i] = ""; s.length > m; r[i] += s.slice(0, j) + ((s = s.slice(j)).length ? b : "")) {
+      j = c == 2 || (j = s.slice(0, m + 1).match(/\S*(\s)?$/))[1] ? m : j.input.length - j[0].length || c == 1 && m || j.input.length + (j = s.slice(m).match(/^\S*/)).input.length;
+    }
+  }
+
+  return r.join("\n");
+}
+function formatDate(date) {
+    var d = new Date(date);
+    var hh = d.getHours();
+    var m = d.getMinutes();
+    var s = d.getSeconds();
+    var dd = "am";
+    var h = hh;
+    if (h >= 12) {
+        h = hh-12;
+        dd = "pm";
+    }
+    if (h == 0) {
+        h = 12;
+    }
+    if(m.toString().length < 2){
+      m = "0" + m;
+    }
+    var replacement = h+":"+m + " "+dd;
+    return replacement;
+   /* 
+    replacement += " "+dd;    
+    return date.replace(pattern,replacement).substr(date.indexOf("@")+1, date.length - 2);
+    */
+}
+function getDMY(date){
+  var newdate = date.substr(0, date.indexOf("@")-1);
+  return newdate;
+}
+function pretty_date(date){
+  return getDMY(date) + " at " + formatDate(date);
+}
+  socket.on("send_posts", function(dataArr){
+  if(dataArr.length > 0){
+      for(var i=0; i < dataArr.length; i++){
+        var latit =  parseFloat(dataArr[i].lat);
+        var longit =  parseFloat(dataArr[i].longi);
+          var ltlng = new google.maps.LatLng(latit,longit);
+          var content = dataArr[i].content;
+	  var shrt_cntnt = content.substr(0,10);
+          var title = dataArr[i].user;
+          var id = dataArr[i].id;
+          var time = dataArr[i].time;
+          var comments = dataArr[i].comments;
+          $("#geo_p_list").append("`<div class='gp_li' style='border:1px dotted #719BD2;'><table><tr><td> \
+                                  <center><b><font color='#5cb85c'>Posted by : "+title+"</b> on "+ pretty_date(time) + " \
+                                                                    </font><hr>"+shrt_cntnt+"..."+"\
+                                 <a href='' id='showgp' data-id='"+id+"' \
+                                                     data-title='"+title+"' \
+                                                    data-content='"+dataArr[i].content+"' \
+                                                    data-time='"+time+"' \
+                                                      data-lat='"+latit+"' \
+                                                      data-long='"+longit+"'> View</a> \
+                                                      <div id='gplv_cmnt"+id+"'><font color='#5cb85c'><b>Comments( " + comments + " )</b></font></div> \
+                                                      </td></tr></table></center></div>`");
+           var marker = place_perm_marker(ltlng, title, content, id, time); 
+
+        }
+      } 
+    });
+ var color = getRandomColor();
+
+  $(document).on("click", "#showgp", function(event){
+    event.preventDefault();
+    var id = $(this).data("id");
+    var title = $(this).data("title");
+    var content = $(this).data("content");
+    var lat = $(this).data("lat");
+    var lng = $(this).data("long");
+    var time = $(this).data("time");
+    map.setCenter(new google.maps.LatLng(lat,lng));
+
+      $("#view_post").modal('show');
+            $("#comments").data("key", id);
+            $("#post_user").html("Posted by " + title + " on " +  pretty_date(time));
+            $("#post_content").html(content);
+
+      
+  });
+  $("#myModal").on("hidden.bs.modal", function(event){
+  if(marker != null){
+    marker.setMap(null);
+    markerExists = false;
+    gpp = null;
+     google.maps.event.clearListeners(map, 'click');
+     $("#cancelgeopost").hide();
+     $("#pickspot").show();
+    $("#post").show();
+     
+  }
+});
+  $('#view_post').on('hidden.bs.modal', function (event) {
+    $("#post_user").html("");
+    $("#post_content").html("");
+    $("#comments_div").html("");
+    $("#comments_div").removeAttr("style");
+    $(".comments").show();
+    $(".hide_comments").hide();
+    $(".post_comment").hide();
+     $("#textarea_div").hide();
+});
+socket.on("send-users", function(dataArr){
+  if(dataArr.length > 0){
+      for(var i=0; i < dataArr.length; i++){
+        if(dataArr[i].username == uname){
+        } else {
+          var ltlng = new google.maps.LatLng(dataArr[i].lat,dataArr[i].longi);
+           var marker = createmarker(ltlng, dataArr[i].username);
+           allMarkers.push(marker);
+           allMarkerKeys.push(dataArr[i].username);
+          }
+        }
+      } else {
+        // no one online
+      }
+    }); 
+  }
+ $(document).on("click", "#home", function(event){
+      event.preventDefault();
+      map.setCenter(new google.maps.LatLng(global_lat,global_longi));
+      map.setZoom(15);
+  });
+  $("#closeinfo").click(function(event){
+    event.preventDefault();
+    $("#intro").remove();
+  });
+  $sendReq.click(function(event){
+    event.preventDefault();
+    socket.emit("chat-request", identifier, uname);
+    $sendReq.hide();
+    $wait.show();
+    $canceldiv.show();
+    if($registerwell.is(":visible")){
+              $registerwell.hide();
+            }
+  });
+  $cancelbttn.click(function(event){
+    event.preventDefault();
+    socket.emit("cancelRequest",  identifier, uname);
+    if(!$registerwell.is(":visible")){
+              $registerwell.show();
+            }
+  })
+  socket.on("show-client-req", function(to, from){
+    global_to = to;
+    global_from = from;
+    if($('#chatwindow').is(":visible")){
+      $('#chatwindow').hide();
+     }
+    $('#allRequests').show();
+     $('#header').html("<h1>Chat Request From " + from + "</h1>");
+       $('#incoming-request').show();
+         $('#recReq').show();
+          if($registerwell.is(":visible")){
+              $registerwell.hide();
+            }
+           $('#allRequests').append($('#incoming-request'));
+
+  });
+  socket.on("senderLeft", function(){
+  $("#chatwindow").hide();
+    $('#messages').empty();
+           $('#stat').empty();
+     $('#allRequests').hide();
+        $("#stat").html("");
+            $("#bttn").hide();
+             $canceldiv.hide();
+             $wait.hide();
+             if(!$registerwell.is(":visible")){
+              $registerwell.show();
+            }
+  });
+  $accReq.submit(function(event){
+    event.preventDefault();
+       socket.emit("accept", global_from, global_to);
+       if($registerwell.is(":visible")){
+              $registerwell.hide();
+            }
+  });
+
+  $CWbttn.click(function(event){
+    event.preventDefault();
+      $('#chatwindow').hide();
+      if(inconv){
+      $navlink.append("<td id='OpenWindow_menu_elem'> | <a href='' id='OpenWindow'> Open Chat </a> | </td>");
+      } 
+     //   $('#hiddenChatWindow').show();
+  });
+  $(document).on('click', '#OpenWindow', function(event){
+    event.preventDefault();
+     $('#chatwindow').show();
+     $("#OpenWindow_menu_elem").remove();
+  });
+  $OWbttn.click(function(event){
+    event.preventDefault();
+    $('#chatwindow').show();
+     $('#hiddenChatWindow').hide();
+  });
+    $sendshoutbttn.click(function(event){
+    event.preventDefault();
+    var shoutmsg = $("#shouttextfield").val();
+    var time = getDateTime();
+    if(null == uname){
+      var guest_id = socket.id.substr(0,6);
+      from = "guest:" + guest_id;
+    } else {
+      from = uname;
+    }
+    socket.emit("send_shout", from, shoutmsg, color, time);
+    $("#shouttextfield").val("");
+  });
+  $closeshout.click(function(event){
+    event.preventDefault();
+      $("#shout_content").hide();
+       $("#hiddenShoutWindow").show();
+  });
+  $("#openShoutWindow").click(function(event){
+    event.preventDefault();
+     $("#shout_content").show();
+     $("#hiddenShoutWindow").hide();
+  });
+ $("#sendshoutform").submit(function(event){
+    event.preventDefault();
+    var shoutmsg = $("#shouttextfield").val();
+    var time = getDateTime();
+    if(null == uname){
+       var guest_id = socket.id.substr(0,6);
+      from = "guest:" + guest_id;
+    } else {
+      from = uname;
+    }
+    socket.emit("send_shout", from, shoutmsg, isAdmin, color, time);
+    $("#shouttextfield").val("");
+  });
+socket.on("admin",function(admin_msg, username, latit, longit){
+  uname = username;
+  lat = latit;
+  longi = longit;
+  $form.hide();
+        $('#error').hide();
+        //  $registerwell.hide();
+  $("#admin_message").html("<b> " + admin_msg + "</b>");
+    $("#admin").show();
+  
+});
+socket.on("bad_credentials", function(msg){
+  uname = null;
+   $registerwell.show();
+   $('#error').html("<b><font color='white'>" + msg + " </font></b>");
+   $("#error").show();
+   $form.show();
+   $("#admin").hide();
+});
+$("#adminloginbttn").click(function(event){
+  event.preventDefault();
+  var pass = $("#loginadmin").val();
+  socket.emit("check_cred", pass, uname, lat, longi);
+});
+$("#admin_l").submit(function(event){
+  event.preventDefault();
+  var pass = $("#loginadmin").val();
+  socket.emit("check_cred", pass, uname, lat, longi);
+});
+  socket.on("post_shout", function(from, msg, color, time){
+   time = formatDate(time);
+    $("#s_msgs").append("<div style='border:1px dotted #719BD2;'><b><font color=" + color + "> " + from + "</font> : <br>" + wordwrap(msg, 38, "<br>", true) + "</b><i><font size='1'> " + time +"</font></i></div>");
+    updateShoutScroll();
+  });
+  socket.on("post_admin_shout", function(from, msg, data, color, time){
+    time = formatDate(time);
+    var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(data.image)));
+    $("#s_msgs").append("<div style='border:1px dotted #719BD2;'><img height='14' width='14' src=data:image/png;base64," + base64String + "></img><b><font color=" + color + "> " + from + "</font> : " + wordwrap(msg, 38, "<br>", true) + "</b><i><font size='1'> " + time +"</font></i></div>");
+    updateShoutScroll();
+  });
+  socket.on("load_shouts", function(sender, message, isAdminPost, img, color, time){
+   time = formatDate(time);
+    if(isAdminPost > 0){
+      var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(img.image)));
+    $("#s_msgs").prepend("<div style='border:1px dotted #719BD2;'><img height='14' width='14' src=data:image/png;base64," + base64String + "></img><b><font color=" + color + "> " + sender + "</font> : <br>" + wordwrap(message, 38, "<br>", true) + "</b><i><font size='1'> " + time +"</font></i></div>");
+    } else {
+        $("#s_msgs").prepend("<div style='border:1px dotted #719BD2;'><b><font color=" + color + "> " + sender + "</font> : <br>" + wordwrap(message, 38, "<br>", true) + "</b><i><font size='1'> " + time +"</font></i></div>");
+      }
+	updateShoutScroll();
+  });
+ $('#endbttn').click(function(event){
+    event.preventDefault();
+    socket.emit("end", uname);
+    inconv = false;
+    $('#chatwindow').hide();
+       $('#messages').empty();
+         $('#stat').empty();
+           $("#media_one").empty();
+             $("#media_two").empty();
+
+       /*if(window.MediaStream !== 'undefined'){
+        window.MediaStream.getAudioTracks().forEach(function(track) {
+            track.stop();
+        });
+
+           window.MediaStream.getVideoTracks().forEach(function(track) {
+                track.stop();
+              });
+       } */
+  });
+   socket.on("convEnded", function(isin, beingrq, cp){
+    inconv = false;
+    $('#chatwindow').hide();
+    if($("#OpenWindow_menu_elem").is(":visible")){
+      $("#OpenWindow_menu_elem").remove();
+    }
+    if(!$registerwell.is(":visible")){
+      $registerwell.show();
+    }
+       $('#messages').empty();
+          $('#stat').empty();
+            $("#media_one").empty();
+             $("#media_two").empty();
+    if((global_call_var != null)){
+      global_call_var.close();
+    }  
+  /* if(window.MediaStream !== 'undefined'){
+        window.MediaStream.getAudioTracks().forEach(function(track) {
+            track.stop();
+        });
+
+           window.MediaStream.getVideoTracks().forEach(function(track) {
+                track.stop();
+              });
+       } */
+  });
+  socket.on("joined", function(data1, data2){
+      data_one = data1;
+    $('#chatwindow').show();
+    $canceldiv.hide();
+    $msgbox.prop('disabled', false);
+    $('#sendmsgbttn').prop('disabled', false);
+    $('#endbttn').prop('disabled', false);
+    $('#bttn').hide();
+    $sendReq.hide();
+    $wait.hide();
+    $('#allRequests').hide();
+    $('#stat').html(data1 + " is now talking to " + data2);
+    /* $('#media_one').html('<video id="v" width="320" height="180" autoplay></video>');
+
+       navigator.getUserMedia({audio: true, video: true}, function(stream){
+        // Set your video displays
+        $('#v').prop('src', URL.createObjectURL(stream));
+        localMediaStream = stream;
+       window.MediaStream = stream;
+        if(peer.id == data1) {
+           peer.call(data2, localMediaStream);
+         } else {
+            peer.call(data1, localMediaStream);
+          }
+          }, function(err) {
+            //console.log('Failed to get local stream' ,err);
+              });
+          peer.on('call', function(call){
+            global_call_var = call;
+             call.answer(window.MediaStream);
+              call.on('stream', function(stream){
+                $('#media_two').html('<video id="v2" width="320" height="180" autoplay></video>');
+                  $('#v2').prop('src', URL.createObjectURL(stream));
+               });
+         });
+*/
+  });
+  $decReq.submit(function(event){
+    event.preventDefault();
+      $('#allRequests').hide();
+       socket.emit("decline", global_from, uname);
+       if(!$registerwell.is(":visible")){
+              $registerwell.show();
+            }
+  });
+  socket.on("waiting", function(msg){
+    $form.html("<b>" + msg + "</b><br><div class='form-group'><button id='cancel_rand' style='width: 240px;' class='btn btn-danger'>Cancel</button></div>");
+  });
+   $form.on('click', '#cancel_rand', function(event){
+      event.preventDefault();
+     // $registerwell.hide();
+      socket.emit("removeFromPool", uname);
+    });
+    socket.on("removed", function(msg){
+    $form.html("<b><center><a href='' id='hide_afterLogin'>Browse Map</a><br>Or<br></b><div class='form-group'><button id='chatrand' class='btn btn-success'>Find Random Person to chat with</button></div></center>");
+      });
+  socket.on("requestDeclined", function(data){
+    $('#waiting').hide();
+      $('#stat').html(data + " has declined your request =(");
+        $("#stat").show();
+        $("#chatwindow").hide();
+        $registerwell.show();
+             });
+   $('#sendmsgbttn').click(function(event){
+    event.preventDefault();
+     $('#messages').append("<b>" + global_user + " : " +  $msg.val() + "</b><br>");
+      socket.emit("message", global_user, $msg.val());
+            $msg.val("");
+                 });
+  $sendmsg.submit(function(event){
+    event.preventDefault();
+      $('#messages').append("<b>" + global_user + " : " +  $msg.val() + "</b><br>");
+      updateScroll();
+       socket.emit("message", global_user, $msg.val());
+          $msg.val("");
+                 });
+  socket.on("msgerr", function(message){
+     $('#messages').html("<b><hr><br>" + message + "</b><br><hr>");
+  });
+  socket.on("sendmsg", function(data, from){
+         $('#messages').append("<b>" + from + " : " + data + "</b><br>");
+            updateScroll();
+                 });
+  socket.on("dec", function(data){
+   });
+  $('#adminModal').on('hidden.bs.modal', function (e) {
+        $navlink.append("<td id='show_admin_dashboard'>  | <a href='' id='showAdminDash'> Show Admin Dashboard </a> | </td>");
+    });
+  $("#adminModal").on("shown.bs.modal", function () { 
+    socket.emit("getAdminStats", uname);
+    socket.on("returnAdminStats", function(data){
+      $("#adminModalData").html(data);
+    });
+});
+  socket.on("list_rm_conv", function(elemid, ac_num){
+    $("#ac_num").html("[<b>  " + ac_num + "  </b>]");
+      $("#" + elemid).remove();
+  });
+  socket.on("list_add_conv", function(htmldata, ac_num){
+    $("#ac_num").html("[<b>  " + ac_num + "  </b>]");
+      $("#actv").prepend(htmldata);
+      updateACdashscroll();
+  });
+  socket.on("list_add_user", function(htmldata, au_num){
+     $("#au_num").html("[<b>  " + au_num + "  </b>]");
+      $("#usrs").prepend(htmldata);
+      updateAUdashscroll();
+  });
+  socket.on("list_rm_usr", function(usrid, au_num){
+     $("#au_num").html("[<b>  " + au_num + "  </b>]");
+      $("#list_usr_" + usrid).remove();
+  });
+  socket.on("rm_cc", function(s_id, cc_num){
+    $("#cc_num").html("[<b>  " + cc_num + "  </b>]");
+    $("li[id*='remote_client_"+s_id+"']").remove();
+  });
+  socket.on("add_cc", function(htmldata, cc_num){
+    $("#cc_num").html("[<b>  " + cc_num + "  </b>]");
+    $("#clnts").prepend(htmldata);
+    updateCCdashscroll();
+  });
+  socket.on("add_unreg_user", function(li_elem){
+    $("#lu_body").prepend(li_elem);
+  });
+  socket.on("replace_with_uname", function(socketid, username){
+    $("#userlist_na_" + socketid).html("<b>User : <font color='#49CB72'>" + username + "</b></font>");
+  });
+  socket.on("userlist_add_uname", function(socketid, username){
+    $("#lu_body").prepend("<li id='userlist_na_"+ socketid + "'> <b> User: <font color='#49CB72'> " + username + "</b></font></li>");
+  });
+  socket.on("remove_userslist", function(socketid){
+    $("#userlist_na_" + socketid).remove();
+  });
+  $infodiv.on('click', '#showAdminDash', function(event){
+    event.preventDefault();
+    $('#show_admin_dashboard').remove();
+     $('#adminModal').modal('show');
+  });
+  $(document).on("click", "#view_conv", function(event){
+      event.preventDefault();
+      var data = $(this).data('id');
+      socket.emit("viewing_conv_get_messages", data, uname);
+      $("#close_observ_window").data("id", data);
+      $("#close_observ_window").show();
+      $("[id=view_conv]").hide();
+  });
+   socket.on("show_message", function(content){
+      $("#obvs_content").html(content);
+      });
+  $("#close_observ_window").click(function(event){
+    event.preventDefault();
+    $("#obvs_content").html("");
+    $("#obvs_content").empty();
+    var dataid = $(this).data('id');
+    socket.emit("rm_from_obv", dataid);
+    $("#close_observ_window").hide();
+    $("[id=view_conv]").show();
+  });
+  socket.on("add_show_msg", function(message, sender){
+    $("#obvs_content").prepend("<b>" + sender + "</b> : " + message + " <br>");
+  });
+  $form.submit(function(event){
+    event.preventDefault();
+       if($username.val() == '' || null || undefined){
+          $('#error').html("<b><font color='white'> must enter a user name </font></b>");
+             $('#error').show();
+    } else {
+    uname = $username.val();
+      if(errFlag){
+          $('#error').hide();
+      }
+    socket.emit("check-in", $username.val(), lat, longi);
+    socket.on("valid", function(message){
+      if(message == "admin"){
+        $("#admin").hide();
+        isAdmin = true;
+        $("#adminModalTitle").text("admin : " + uname);
+        $('#adminModal').modal('show');
+      }
+      if(!$form.is(":visible")){
+        $form.show();
+      }
+       $form.html("<b><center><a href='' id='hide_afterLogin'>Browse Map</a><br>Or<br></b><div class='form-group'><button id='chatrand' class='btn btn-success'>Find Random Person to chat with</button></div></center>");
+       $afterLogin.show();
+        $('#error').hide();
+        //  $registerwell.hide();
+            peer = new Peer($username.val(), {key: 'j7c1qbwja038r529'});
+              global_user = peer.id;
+              var latlng = new google.maps.LatLng(lat,longi); 
+               var marker = new google.maps.Marker({ 
+                position: latlng, 
+                map: map, 
+                flat: true, 
+                title: "Me : " + uname, 
+                draggable: false 
+             });
+         iconFile = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'; 
+        marker.setIcon(iconFile);
+    });
+    socket.on("register_error", function(err){
+      $('#error').html("<b><font color='white'>" + err + "</font></b>");
+       $('#error').show();
+    });
+    }
+  });
+ $("#close_geopost_dash").click(function(event){
+    event.preventDefault();
+    $("#post").hide();
+    $navlink.append("<td id='show_gp_dash'> | <a href='' id='showgpdash'>Show GeoPost Dashboard</a> | </td>");
+ });
+ $infodiv.on('click', "#showgpdash", function(event){
+    event.preventDefault();
+    $("#post").show();
+    $("#show_gp_dash").remove();
+ });
+ $form.on('click', '#hide_afterLogin', function(event){
+  event.preventDefault();
+  $registerwell.hide();
+  $navlink.append("<td id='show_user_dashboard'> | <a href='' id='showUserDash'> Show User Dashboard</a> | </td>");
+ });
+ $infodiv.on('click', "#showUserDash", function(event){
+  event.preventDefault();
+  $('#show_user_dashboard').remove();
+  $registerwell.show();
+ });
+ $form.on('click', '#chatrand', function(event){
+      event.preventDefault();
+     // $registerwell.hide();
+      randRolling = true;
+      socket.emit('addToRandomPool', uname, lat, longi, randRolling);
+    });
+ $("#pickspot").click(function(event){
+   event.preventDefault();
+    $("#pickspot").hide();
+   $("#cancelgeopost").show();
+  // $("#post").hide();
+   google.maps.event.addListener(map, 'click', function(event){
+       placeMarker(event.latLng);
+    });
+ });
+ $("#cancelgeopost").click(function(event){
+  google.maps.event.clearListeners(map, 'click');
+  $("#pickspot").show();
+   $("#cancelgeopost").hide();
+  google.maps.event.clearListeners(map, 'click');
+ });
+ $("#make_post").click(function(event){
+  event.preventDefault();
+    var content = $("#post_cntnt").val();
+    var user = "";
+    if(uname == null){
+      user = "anonymous";
+    } else {
+      user = uname;
+    }
+    var content = $("#post_cntnt").val();
+    var post_lat = gpp.lat().toString().substr(0,8);
+    var post_long = gpp.lng().toString().substr(0,8);
+    var time = getDateTime();
+     socket.emit("store_post", user, content, post_lat, post_long, isAdmin, time);
+ $("#myModal").modal('hide');
+    $("#post_cntnt").val("");
+       $("#post").show();
+ });
+ socket.on("add_post_to_map", function(user, content, lat, longi, id, time, comments){
+  var post_lat = parseFloat(lat);
+  var post_long = parseFloat(longi);
+  var shrt_cntnt = content.substr(0, 10);
+  var post_position = new google.maps.LatLng(post_lat, post_long);
+  place_perm_marker(post_position, user, content, id, time);
+  $("#geo_p_list").prepend("`<div class='gp_li' style='border:1px dotted #719BD2;'><table><tr><td> \
+                                  <center><b><font color='#5cb85c'>Posted by : "+user+"</b> on "+ pretty_date(time) + " \
+                                                                    </font><hr>"+shrt_cntnt+"..."+"\
+                                 <a href='' id='showgp' data-id='"+id+"' \
+                                                     data-title='"+user+"' \
+                                                    data-content='"+shrt_cntnt+"' \
+                                                    data-time='"+time+"' \
+                                                      data-lat='"+post_lat+"' \
+                                                      data-long='"+post_long+"'> View</a> \
+                                                      <div id='gplv_cmnt"+id+"'><font color='#5cb85c'><b>Comments( " + comments + " )</b></font></div> \
+                                                      </td></tr></table></center></div>`");
+});
+ $(".comments").click(function(event){
+  com_visible = true;
+event.preventDefault();
+$(".comments").hide();
+$("#comments_div").attr("style", "  height: 200px;");
+$(".hide_comments").show();
+var id = $(".comments").data("key");
+socket.emit("get_comments", id);
+socket.on("serve_comments", function(data){
+    $("#comments_div").html("");
+    $("#comments_div").data("key", id);
+   for(var i=0; i < data.length; i++){
+         var clr = data[i].color;
+    $("#comments_div").append("<b><font color=" + clr +">" + data[i].user + "</font></b> : " + data[i].content + "<hr>");
+    updateCommentsScroll();
+   }
+    $("#textarea_div").attr("placeholder","write a response");
+     $("#textarea_div").show();
+    $("#post_comment").show();
+  });
+socket.on("no_comments", function(data){
+    $("#comments_div").html("<b>No comments yet</b><br><hr>");
+    $("#comments_div").data("key", id);
+    $("#textarea_div").attr("placeholder", "write a response");
+    $("#textarea_div").show();
+    $("#post_comment").show();
+  });
+});
+ $(".hide_comments").click(function(event){
+  com_visible = false;
+  $("#comments_div").html("");
+  $("#post_comment").hide();
+  $("#textarea_div").hide();
+  $("#comments_div").attr("style", "  height: 0;");
+  $(".comments").show();
+$(".hide_comments").hide();
+});
+$(".post_comment").click(function(event){
+  event.preventDefault();
+  var com_con = $("#comment_content").val();
+  if(com_con.length < 1){
+    $("#error").html("write something first");
+  } else {
+      var user = "";
+    if(uname == null){
+      user = "anonymous";
+    } else {
+      user = uname;
+    }
+    var key = $("#comments_div").data("key");
+    var time = getDateTime();
+    socket.emit("post_comment", com_con, user, key, color, isAdmin, time);
+    $("#comment_content").val("");
+  }
+});
+socket.on("post", function(content, user, key, clr, time, comments){
+  if (com_visible) {
+    if($("#comments_div").data("key") == key){
+       $("#comments_div").append("<b><font color=" + clr + ">" + user + "</font></b> : " + content + "   <font size='2'><i>" + formatDate(time) + "</i></font><hr>");
+       updateCommentsScroll();
+    }
+}
+$("[id=gplv_cmnt"+key+"").html("<font color='#5cb85c'><b>Comments( " + comments + " )</b></font>");
+});
+  function showPosition(position){
+    if(position.coords != undefined){
+       lat = position.coords.latitude.toString().substr(0,8);
+       longi = position.coords.longitude.toString().substr(0,8);
+      global_lat = lat;
+      global_longi = longi;
+      $navlink.prepend("<td id='gohome_menu_elem'> | <a href='' id='home'>Go Home</a> | </td>");
+      var mapOptions = {
+        center : new google.maps.LatLng(lat,longi),
+        zoom : 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+       map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+       socket.emit("map-loaded");
+        socket.emit("get_all_shouts");
+      var latlng = new google.maps.LatLng(lat,longi);
+      google.maps.event.addDomListener(window, 'load', showPosition);
+    }
+    return false;
+  }
+  function showChatWindow(title){
+            if(uname == undefined){
+               $('#error').html("<b><font color='white'> Make a user name to send a chat request</font></b>")
+                $('#error').show();
+                 errFlag = true;
+                   } else {
+                  //$('#chatwindow').show();
+                   identifier = title;
+
+                  $('#chatwindow').show();
+                  $('#bttn').attr('value', 'Send chat Request to ' + identifier);
+                  $('#bttn').show();
+                  $('#sendmsgbttn').prop('disabled',true);
+                  $('#endbttn').prop('disabled',true);
+
+          }
+      } 
+
+  function createmarker(pos, title){
+    var mark = new google.maps.Marker({
+                position: pos,
+                map: map,
+                title: title
+          });
+        google.maps.event.addListener(mark, 'click', function() {
+          if($('#allRequests').is(":visible")){}
+           else {
+          if(uname == undefined){
+            $('#error').html("<b><font color='white'> you must make a username first </font></b>");
+            $('#error').show();
+            errFlag = true;
+          } else {
+          socket.emit("check_status", title, uname);
+          socket.on("return_status", function(status){
+            if(status == 5){
+                $('#stat').html(title + "Is seeking a random chatpartner");
+                $('#stat').show();
+                }
+              else if(status == 4){
+                     $('#stat').html("You are currently seeking a random chat partner");
+                     $('#stat').show();
+                            }
+                    else if(status == 3){
+                     $('#stat').html("You are already in a conversation! don't be rude ");
+                      $('#stat').show();
+                            }
+                      else if(status == 2){
+                      $registerwell.hide();
+                      showChatWindow(mark.title);
+                      $('#stat').empty();
+                      $('#messages').empty();
+
+                    } else if(status == 1){
+                        showChatWindow(mark.title);
+                        $('#bttn').hide();
+                        $('#stat').html(mark.title + " is in a conversation ");
+                         $('#stat').show();
+                    } else {
+                              showChatWindow(mark.title);
+                              $('#bttn').hide();
+                              $('#stat').html(mark.title + " has a pending request ");
+                               $('#stat').show();
+                     }
+                  });
+                }
+              }
+            });
+             return mark;
+       }
+  function geolocate() {
+            var input = document.getElementById('AddressRegister');
+            var optns = {
+                types: ['address']
+            };
+            if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(function(position) {
+                var geolocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+              });
+            }
+          }
+function codeLatLng(lat, lng)
+{
+  var geocoder;
+  geocoder = new google.maps.Geocoder();
+  var latlng = new google.maps.LatLng(lat, lng);
+  //Geocoder takes longitude and latitude and sets it to an adress.
+  geocoder.geocode({'latLng': latlng}, function(results, status)
+  {
+if (status == google.maps.GeocoderStatus.OK)
+    {
+      if (results[1])
+      {
+    
+        placeMarker(latlng, "addr");
+        }
+      }
+    });
+}
+function place_perm_marker(position, title, content, id, time){
+    var marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        title: title,
+         flat: true, 
+            draggable: false, 
+      });
+        iconFile = 'http://45.55.42.214:8080/html/globe.png'; 
+        marker.setIcon(iconFile);
+   var lat_str = position.lat().toString().substr(0,8);;
+   var long_str = position.lng().toString().substr(0,8);;
+        marker.addListener('click', function(){
+            $("#view_post").modal('show');
+            $("#comments").data("key", id);
+            $("#post_user").html("Posted by " + title + " on " +  pretty_date(time));
+            $("#post_content").html(content);
+        });
+}
+function placeMarker(location)
+{
+  $("#post").hide();
+   if(markerExists){} else {
+     marker = new google.maps.Marker({
+        position: location,
+        map: map,
+         flat: true, 
+            draggable: false, 
+    });
+              iconFile = 'http://104.236.22.102:8080/html/globe.png'; 
+        marker.setIcon(iconFile);
+    map.setCenter(marker.getPosition());
+    markerExists = true;
+    gpp = marker.getPosition();
+     if(marker.visible){
+        $('#myModal').modal();
+     }
+   }
+}
+   socket.on("remove-marker", function(data){
+            for(var x=0; x<allMarkers.length; x++){
+              if(allMarkers[x].title == data){
+                var temp = allMarkers[x].title;
+                allMarkers[x].setMap(null);
+              }
+            }
+          });
+                socket.on("update-map", function(dataArr){
+                  for(var x=0; x<allMarkers.length; x++){
+                           allMarkers[x].setMap(null);
+                       }
+                  allMarkers = [];
+            for(var i=0; i < dataArr.length; i++){
+                if(allMarkers.indexOf(dataArr[i].username) == -1){} else {
+                  allMarkers.splice(indexOf(dataArr[i].username), 1);
+                }
+         if(dataArr.length > 1){
+              if(i == dataArr.length-1){
+                 if((dataArr[i].lat ||  dataArr[i].longi)==(dataArr[i-1].lat ||  dataArr[i-1].longi)){
+                    // This is concatenating 0.0003112 onto end of string - parse to int
+                  dataArr[i].lat = parseFloat(dataArr[i].lat) + 0.0006165;
+                  dataArr[i].longi = parseFloat(dataArr[i].longi) + 0.0004165;
+                }
+              } else {
+                if((dataArr[i].lat ||  dataArr[i].longi)==(dataArr[i+1].lat ||  dataArr[i+1].longi)){
+                        // This is concatenating 0.0003112 onto end of string - parse to int
+                  dataArr[i].lat = parseFloat(dataArr[i].lat) + 0.0004165;
+                  dataArr[i].longi = parseFloat(dataArr[i].longi) + 0.0006165;
+                   }
+             }
+        }
+            if(dataArr[i].username == uname){
+            } else {
+            var ltlng = new google.maps.LatLng(dataArr[i].lat,dataArr[i].longi);
+            var marker = createmarker(ltlng, dataArr[i].username);
+            allMarkers.push(marker);
+            }
+       }
+       for(var i=0; i < allMarkers.length; i++){
+                }
+          });
+ // close document.ready 
+    });
+</script>

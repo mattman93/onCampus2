@@ -1,0 +1,17 @@
+{
+  "name": "onCampus2",
+  "description": "location based chat app",
+  "version": "0.0.1",
+  "author": "Matthew Cieslak",
+  "homepage": "www.oncampus.ws",
+  "main": "appserv.js",
+  "dependencies": {
+    "socket.io": "latest",
+    "express": "latest",
+    "connect": "latest",
+    "async": "latest"
+  },
+  "engines": {
+    "node": "0.10.18"
+  }
+}
